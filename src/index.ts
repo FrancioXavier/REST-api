@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express';
+import statusRouter from './routes/status-route';
 import usersRoute from './routes/user-routes';
 const app = express(); 
 
@@ -10,9 +11,7 @@ const app = express();
 //Routes
     app.use('/users', usersRoute);
 
-    app.get('/status', (req: Request, res: Response, next: NextFunction) => {
-        res.status(200).send('batata');
-    });
+    app.use('/status', statusRouter)
 
 //Start
     app.listen(8080, () => {
