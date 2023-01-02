@@ -11,8 +11,14 @@ usersRoute.get('/', async (req: Request, res: Response, next: NextFunction) => {
 });
 
 usersRoute.get('/:uuid', async (req: Request<{uuid:string}>, res: Response, next: NextFunction) => {
-    const user = await user_repository.findById(req.params.uuid);
-    res.status(StatusCodes.OK).send(user)
+    try{
+        const uuid = req.params.uuid;
+        const user = await user_repository.findById(uuid);
+        res.status(StatusCodes.OK).send(user);
+    } catch(error){
+        res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+
 });
 
 usersRoute.post('/', async (req: Request, res: Response, next: NextFunction) => {
