@@ -9,3 +9,5 @@ CREATE TABLE IF NOT EXISTS application_user(
 )
 
 INSERT INTO application_user (username, password) VALUES ('admin', crypt('admin', 'my_salt'))
+
+INSERT INTO application_user (username, password) VALUES ('Francio', crypt('francio', 'my_salt'))
