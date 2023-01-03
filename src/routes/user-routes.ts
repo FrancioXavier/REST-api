@@ -16,9 +16,9 @@ usersRoute.get('/:uuid', async (req: Request<{uuid:string}>, res: Response, next
         const user = await user_repository.findById(uuid);
         res.status(StatusCodes.OK).send(user);
     } catch(error){
-        res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
+        next(error);
     }
-
+    
 });
 
 usersRoute.post('/', async (req: Request, res: Response, next: NextFunction) => {
