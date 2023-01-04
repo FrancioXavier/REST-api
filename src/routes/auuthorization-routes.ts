@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import ForbiddenError from '../models/errors/forbidden-error';
 import user_repository from '../repositories/user_repository';
+import JWT from 'jsonwebtoken';
+import { StatusCodes } from 'http-status-codes';
 
 
 const authorizationRoute =  Router();
@@ -31,8 +33,18 @@ authorizationRoute.post('', async (req: Request, res: Response, next: NextFuncti
         }
 
         const user = await user_repository.findByUsernameAndPassword(username, password);
-        
-        res.redirect(`/users/${user?.uuid}`)
+
+        if(!user){
+            throw new ForbiddenError('Usuário não existe.');
+        }
+
+        const jwtPayload = {username: user.username};
+        const jwtOptions = { subject: user?.uuid }
+        const secretKey = 'my_secret_key';
+
+        const jwt = JWT.sign(jwtPayload, secretKey, jwtOptions);
+
+        res.status(StatusCodes.OK).json({token: jwt})
 
     } catch (error) {
         next(error);
