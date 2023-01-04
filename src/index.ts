@@ -1,5 +1,6 @@
 import express from 'express';
 import errorHandler from './middlewares/error-handler-middleware';
+import authorizationRoute from './routes/auuthorization-routes';
 import statusRouter from './routes/status-route';
 import usersRoute from './routes/user-routes';
 const app = express(); 
@@ -12,7 +13,9 @@ const app = express();
 //Routes
     app.use('/users', usersRoute);
 
-    app.use('/status', statusRouter)
+    app.use('/status', statusRouter);
+
+    app.use('/token', authorizationRoute);
 
 //configuração handlers de erro
 
